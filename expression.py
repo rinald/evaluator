@@ -8,5 +8,13 @@ Unlike elementary expressions, they can also contain :
 """
 
 class Expression(Elementary_Expression):
-    pass
-    
+    def __init__(self, experssion):
+        pass
+    def __str__(self):
+        pass
+    def __repr__(self):
+        pass
+    def evaluate(self):
+        pass
+    def reset(self, expression):
+        pass
