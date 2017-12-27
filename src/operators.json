@@ -1,0 +1,26 @@
+{
+    "+": {
+        "priority": 0,
+        "function": "add"
+    },
+    "-": {
+        "priority": 0,
+        "function": "sub"
+    },
+    "*": {
+        "priority": 0,
+        "function": "mul"
+    },
+    "/": {
+        "priority": 0,
+        "function": "div"
+    },
+    "%": {
+        "priority": 0,
+        "function": "mod"
+    },
+    "^": {
+        "priority": 0,
+        "function": "pow"
+    }
+}
