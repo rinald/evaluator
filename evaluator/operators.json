@@ -8,19 +8,19 @@
         "function": "sub"
     },
     "*": {
-        "priority": 0,
+        "priority": 1,
         "function": "mul"
     },
     "/": {
-        "priority": 0,
+        "priority": 1,
         "function": "div"
     },
     "%": {
-        "priority": 0,
+        "priority": 2,
         "function": "mod"
     },
     "^": {
-        "priority": 0,
+        "priority": 3,
         "function": "pow"
     }
 }
