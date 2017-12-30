@@ -1,15 +1,18 @@
 """Defines a parser for arbitrary expressions. 
 
-Unlike elementary expressions, they can also contain :
+Unlike simple expressions, they can also contain :
     - Parentheses
     - Functions
 """
 
-from .elementary_expression import Elementary_Expression
+from .simple_expression import SimpleExpression
 
-class Expression(Elementary_Expression):
-    def __init__(self, experssion):
-        pass
+class Expression(SimpleExpression):
+    """Defines an expression."""
+
+    def __init__(self, expression):
+        super().__init__(self, expression)
+        
     def __str__(self):
         pass
     def __repr__(self):

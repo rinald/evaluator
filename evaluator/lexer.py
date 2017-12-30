@@ -27,14 +27,10 @@ class Token:
     """
 
     def __init__(self, type_, value):
-        """Initialise token."""
-
         self.type = type_
         self.value = value
 
     def __str__(self):
-        """Return string representation of token."""
-
         return "{} : {}".format(self.type, self.value)
 
 class TokenError(Exception):
@@ -51,35 +47,15 @@ class Lexer:
     EOI = "" # End Of Input
 
     def __init__(self, expression):
-        """Initialise lexer."""
-
         self.expression = expression
         self.cursor_position = 0
         self.reading_position = 0 # Position to start reading from
         self.current_character = expression[0]
 
-    def read_character(self):
-        """Reads next character."""
-
-        self.cursor_position += 1
-        if self.cursor_position <= len(self.expression) - 1:
-            self.current_character = self.expression[self.cursor_position]
-        else:
-            self.current_character = Lexer.EOI
-
-    def read_token(self):
-        """Reads next token."""
-
-        pass
-
     def __iter__(self):
-        """Return iterator."""
-
         return self
 
     def __next__(self):
-        """Return next token."""
-
         if self.current_character == Lexer.EOI:
             raise StopIteration
 
@@ -107,3 +83,17 @@ class Lexer:
             self.read_character()
         else:
             raise TokenError("Invalid value.")
+
+    def read_character(self):
+        """Reads next character."""
+
+        self.cursor_position += 1
+        if self.cursor_position <= len(self.expression) - 1:
+            self.current_character = self.expression[self.cursor_position]
+        else:
+            self.current_character = Lexer.EOI
+
+    def read_token(self):
+        """Reads next token."""
+
+        pass
