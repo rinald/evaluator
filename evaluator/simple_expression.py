@@ -35,7 +35,7 @@ class SimpleExpression:
             else:
                 pass
 
-        while operands != []:
+        while operations != []:
             # Associate operands with operations
             # Always associate the firsts with the lasts
             operations[0].left = operands[0]
@@ -49,17 +49,27 @@ class SimpleExpression:
                     operations[i-1].right = operands[i]
                 else:
                     operations[i].left = operands[i]
-            # Remove complete operations
-            operations_ = operations[:]
-            for i in range(len(operations_)):
-                if operations_[i].left != None and operations_[i].right != None:
-                    del operands[i]
-                    del operands[i+1]
-                    del operations[i]
-                    operands.insert(operations_[i])
+
+            operands_ = []
+            operations_ = []
+            
+            for operation in operations:
+                if (operation.left is not None) and (operation.right is None):
+                    operands_.append(operation.left)
+                    operations_.append(operation)
+                elif (operation.left is None) and (operation.right is not None):
+                    operands_.append(operation.right)
+                    operations_.append(operation)
+                elif (operation.left is not None) and (operation.right is not None):
+                    operands_.append(operation)
+                else:
+                    operations_.append(operation)
+
+            operands = operands_
+            operations = operations_
 
         # Assign the root operation
-        self.root = operations[0]
+        self.root = operands[0]
 
     def evaluate(self):
         """Evaluate expression."""

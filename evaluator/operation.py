@@ -10,7 +10,7 @@ class Operation:
         self.operator = operator
         self.right = right
     def __str__(self):
-        "Operation : ({} {} {})".format(self.left, self.operator, self.right)
+        return "({}{}{})".format(self.left, self.operator, self.right)
     def __repr__(self):
         return self.__str__()
     def evaluate(self):
