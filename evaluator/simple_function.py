@@ -1,22 +1,21 @@
-"""Defines a parser for simple expressions.
-
-A simple expression has no parentheses.
-"""
+"""Defines a parser for simple functions."""
 
 from .lexer import Lexer
 from .operation import Operation
 from .helpers import OPERATORS
 
-class SimpleExpression:
-    """Defines a simple expression."""
+class SimpleFunction:
+    """Defines a simple function."""
 
-    def __init__(self, simple_expression):
-        self.expression = simple_expression
-        self._init(simple_expression)
+    def __init__(self, functional_expression):
+        self.expression = functional_expression
+        self._init(functional_expression)
     def __str__(self):
-        return "{} = {}".format(self.expression, self.evaluate())
+        return "<function : {}>".format(self.expression)
     def __repr__(self):
         return self.__str__()
+    def __call__(self, x):
+        return self.evaluate(x)
     def _init(self, simple_expression):
         """Do the actual initialisation."""
 
@@ -28,6 +27,8 @@ class SimpleExpression:
         for token in lexer:
             if token.type == "integer":
                 operands.append(int(token.value))
+            elif token.type == "variable":
+                operands.append(token.value)
             elif token.type == "operator":
                 operations.append(Operation(None, token.value, None))
             else:
@@ -68,21 +69,23 @@ class SimpleExpression:
 
         # Assign the root operation
         self.root = operands[0]
-    def _evaluate(self, node):
-        """Do the actual initialisation."""
+    def _evaluate(self, node, x):
+        """Do the actual evaluation."""
 
         if isinstance(node, int):
             return node
+        elif node == "x":
+            return x
         function = OPERATORS[node.operator]["function"]
-        left = self._evaluate(node.left)
-        right = self._evaluate(node.right)
+        left = self._evaluate(node.left, x)
+        right = self._evaluate(node.right, x)
         return function(left, right)
-    def evaluate(self):
-        """Evaluate expression."""
+    def evaluate(self, x):
+        """Evaluate f(x)."""
 
-        return self._evaluate(self.root)
-    def reset(self, simple_expression):
-        """Reset expression."""
+        return self._evaluate(self.root, x)
 
-        self.__init__(simple_expression)
-  
+    def reset(self, functional_expression):
+        """Reset function."""
+
+        self.__init__(functional_expression)

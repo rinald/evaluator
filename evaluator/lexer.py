@@ -59,10 +59,22 @@ class Lexer:
         if self.current_character == Lexer.EOI:
             raise StopIteration
 
+        # Ignore whitespace
+        if is_whitespace(self.current_character):
+            while is_whitespace(self.current_character):
+                self.read_character()
+            self.reading_position = self.cursor_position
+
         if is_digit(self.current_character):
             while is_digit(self.current_character):
                 self.read_character()
             type_ = "integer"
+            value = self.expression[self.reading_position : self.cursor_position]
+            self.reading_position = self.cursor_position
+            return Token(type_, value)
+        elif self.current_character == 'x':
+            self.read_character()
+            type_ = "variable"
             value = self.expression[self.reading_position : self.cursor_position]
             self.reading_position = self.cursor_position
             return Token(type_, value)
@@ -79,10 +91,8 @@ class Lexer:
             self.reading_position = self.cursor_position
             token = Token(type_, value)
             return token
-        elif is_whitespace(self.current_character):
-            self.read_character()
         else:
-            raise TokenError("Invalid value.")
+            raise TokenError("Invalid character.")
 
     def read_character(self):
         """Reads next character."""
