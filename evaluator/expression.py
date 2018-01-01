@@ -1,4 +1,4 @@
-"""Defines a parser for arbitrary expressions. 
+"""Defines a parser for arbitrary expressions.
 
 Unlike simple expressions, they can also contain :
     - Parentheses
@@ -12,7 +12,6 @@ class Expression(SimpleExpression):
 
     def __init__(self, expression):
         super().__init__(self, expression)
-        
     def __str__(self):
         pass
     def __repr__(self):

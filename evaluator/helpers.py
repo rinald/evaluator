@@ -4,7 +4,6 @@ import math
 import operator
 
 OPERATORS = {
-    
     # Arithmetic operators
     "+": {
         "priority": 0,
@@ -35,8 +34,7 @@ OPERATORS = {
         "priority": 3,
         "type": "infix",
         "function": operator.pow
-    }
-    
+    },
     # Mathematical functions
     # Implemented as prefix operators
     "abs": {
@@ -69,4 +67,4 @@ OPERATORS = {
         "type": "prefix",
         "function": math.tan
     },
-} 
+}
