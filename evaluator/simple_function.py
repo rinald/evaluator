@@ -36,7 +36,7 @@ class SimpleFunction:
         # Build tree
         while operations != []:
             # Associate operands with operations
-            # Always associate the firsts with the lasts
+            # Always associate the firsts and the lasts
             operations[0].left = operands[0]
             operations[-1].right = operands[-1]
             # Associate the middle operands

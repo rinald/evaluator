@@ -1,42 +1,7 @@
 """Defines a lexer for mathematical expressions."""
 
-def is_digit(character):
-    """Checks if character is a digit."""
-
-    return character != "" and character in "0123456789"
-
-def is_operator(character):
-    """Checks if character is an operator."""
-
-    return character != "" and character in "+-*/%^"
-
-def is_parenthese(character):
-    """Checks if character is a parenthese."""
-
-    return character != "" and character in "()"
-
-def is_whitespace(character):
-    """Checks if character is a whitespace."""
-
-    return character != "" and character in " \n\t"
-
-class Token:
-    """Token for mathematical expressions.
-
-    Provides type and value to the lexer.
-    """
-
-    def __init__(self, type_, value):
-        self.type = type_
-        self.value = value
-
-    def __str__(self):
-        return "{} : {}".format(self.type, self.value)
-
-class TokenError(Exception):
-    """Raised when reading an invalid value."""
-
-    pass
+from .helpers import is_digit, is_operator, is_parenthese, is_whitespace
+from .token import Token, TokenError
 
 class Lexer:
     """Lexer for mathematical expressions.
@@ -58,52 +23,45 @@ class Lexer:
     def __next__(self):
         if self.current_character == Lexer.EOI:
             raise StopIteration
-
+        
         # Ignore whitespace
         if is_whitespace(self.current_character):
             while is_whitespace(self.current_character):
                 self.read_character()
             self.reading_position = self.cursor_position
-
-        if is_digit(self.current_character):
-            while is_digit(self.current_character):
-                self.read_character()
-            type_ = "integer"
-            value = self.expression[self.reading_position : self.cursor_position]
-            self.reading_position = self.cursor_position
-            return Token(type_, value)
-        elif self.current_character == 'x':
-            self.read_character()
-            type_ = "variable"
-            value = self.expression[self.reading_position : self.cursor_position]
-            self.reading_position = self.cursor_position
-            return Token(type_, value)
-        elif is_operator(self.current_character):
-            self.read_character()
-            type_ = "operator"
-            value = self.expression[self.reading_position : self.cursor_position]
-            self.reading_position = self.cursor_position
-            return Token(type_, value)
-        elif is_parenthese(self.current_character):
-            self.read_character()
-            type_ = "parenthese"
-            value = self.expression[self.reading_position : self.cursor_position]
-            self.reading_position = self.cursor_position
-            token = Token(type_, value)
-            return token
-        else:
-            raise TokenError("Invalid character.")
+        
+        return self.get_token()
 
     def read_character(self):
         """Reads next character."""
 
         self.cursor_position += 1
+        
         if self.cursor_position <= len(self.expression) - 1:
             self.current_character = self.expression[self.cursor_position]
         else:
             self.current_character = Lexer.EOI
 
-    def read_token(self):
-        """Reads next token."""
+    def get_token(self):
+        """Return next token."""
 
-        pass
+        if is_digit(self.current_character):
+            while is_digit(self.current_character):
+                self.read_character()
+            type_ = "integer"
+        elif self.current_character == 'x':
+            self.read_character()
+            type_ = "variable"
+        elif is_operator(self.current_character):
+            self.read_character()
+            type_ = "operator"
+        elif is_parenthese(self.current_character):
+            self.read_character()
+            type_ = "parenthese"
+        else:
+            raise TokenError("Invalid character.")
+
+        value = self.expression[self.reading_position : self.cursor_position]
+        self.reading_position = self.cursor_position
+
+        return Token(type_, value)

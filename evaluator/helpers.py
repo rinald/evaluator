@@ -3,6 +3,26 @@
 import math
 import operator
 
+def is_digit(character):
+    """Checks if character is a digit."""
+
+    return character != "" and character in "0123456789"
+
+def is_operator(character):
+    """Checks if character is an operator."""
+
+    return character != "" and character in "+-*/%^"
+
+def is_parenthese(character):
+    """Checks if character is a parenthese."""
+
+    return character != "" and character in "()"
+
+def is_whitespace(character):
+    """Checks if character is a whitespace."""
+
+    return character != "" and character in " \n\t"
+
 OPERATORS = {
     # Arithmetic operators
     "+": {
@@ -36,7 +56,6 @@ OPERATORS = {
         "function": operator.pow
     },
     # Mathematical functions
-    # Implemented as prefix operators
     "abs": {
         "priority": 4,
         "type": "prefix",

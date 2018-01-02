@@ -4,6 +4,7 @@ A simple expression has no parentheses.
 """
 
 from .lexer import Lexer
+from .token import UnknownToken
 from .operation import Operation
 from .helpers import OPERATORS
 
@@ -31,11 +32,11 @@ class SimpleExpression:
             elif token.type == "operator":
                 operations.append(Operation(None, token.value, None))
             else:
-                pass
+                raise UnknownToken
         # Build tree
         while operations != []:
             # Associate operands with operations
-            # Always associate the firsts with the lasts
+            # Always associate the firsts and the lasts
             operations[0].left = operands[0]
             operations[-1].right = operands[-1]
             # Associate the middle operands
@@ -85,4 +86,3 @@ class SimpleExpression:
         """Reset expression."""
 
         self.__init__(simple_expression)
-  

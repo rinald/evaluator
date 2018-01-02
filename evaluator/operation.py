@@ -3,7 +3,7 @@
 from .helpers import OPERATORS
 
 class Operation:
-    """Mathematical operation."""
+    """Defines a mathematical operation."""
 
     def __init__(self, left, operator, right):
         self.left = left
