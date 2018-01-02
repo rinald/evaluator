@@ -16,13 +16,13 @@ class SimpleFunction:
         return self.__str__()
     def __call__(self, x):
         return self.evaluate(x)
-    def _init(self, simple_expression):
+    def _init(self, functional_expression):
         """Do the actual initialisation."""
 
         operands = [] # Will contain operands as integers
         operations = [] # Will contain operations
 
-        lexer = Lexer(simple_expression)
+        lexer = Lexer(functional_expression)
 
         for token in lexer:
             if token.type == "integer":
