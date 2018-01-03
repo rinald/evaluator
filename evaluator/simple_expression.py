@@ -4,42 +4,47 @@ A simple expression has no parentheses.
 """
 
 from .lexer import Lexer
-from .token import UnknownToken
 from .operation import Operation
 from .helpers import OPERATORS
+
+class EvaluationError(Exception):
+    pass
+
+class ParsingError(Exception):
+    pass
 
 class SimpleExpression:
     """Defines a simple expression."""
 
-    def __init__(self, simple_expression):
-        self.expression = simple_expression
-        self._init(simple_expression)
+    def __init__(self, expression):
+        self.expression = expression
+        self._init(expression)
     def __str__(self):
-        return "{} = {}".format(self.expression, self.evaluate())
+        return "<simple expression '{}'>".format(self.expression)
     def __repr__(self):
         return self.__str__()
-    def _init(self, simple_expression):
+    def _append_token(self, token, operands, operations):
+        if token.type == "integer":
+            operands.append(int(token.value))
+        elif token.type == "operator":
+            operations.append(Operation(None, token.value, None))                     
+        else:
+            raise ParsingError(token)
+    def _init(self, expression):
         """Do the actual initialisation."""
 
         operands = [] # Will contain operands as integers
         operations = [] # Will contain operations
 
-        lexer = Lexer(simple_expression)
+        lexer = Lexer(expression)
 
         for token in lexer:
-            if token.type == "integer":
-                operands.append(int(token.value))
-            elif token.type == "operator":
-                operations.append(Operation(None, token.value, None))
-            else:
-                raise UnknownToken
-        # Build tree
+            self._append_token(token, operands, operations)
+
         while operations != []:
-            # Associate operands with operations
-            # Always associate the firsts and the lasts
             operations[0].left = operands[0]
             operations[-1].right = operands[-1]
-            # Associate the middle operands
+
             for i in range(1, len(operands) - 1):
                 left_priority = OPERATORS[operations[i-1].operator]["priority"]
                 right_priority = OPERATORS[operations[i].operator]["priority"]
@@ -67,22 +72,24 @@ class SimpleExpression:
             operands = operands_
             operations = operations_
 
-        # Assign the root operation
         self.root = operands[0]
     def _evaluate(self, node):
         """Do the actual initialisation."""
 
         if isinstance(node, int):
             return node
-        function = OPERATORS[node.operator]["function"]
-        left = self._evaluate(node.left)
-        right = self._evaluate(node.right)
-        return function(left, right)
+        elif isinstance(node, Operation):
+            function = OPERATORS[node.operator]["function"]
+            left = self._evaluate(node.left)
+            right = self._evaluate(node.right)
+            return function(left, right)
+        else:
+            raise EvaluationError(node)
     def evaluate(self):
         """Evaluate expression."""
 
         return self._evaluate(self.root)
-    def reset(self, simple_expression):
+    def reset(self, expression):
         """Reset expression."""
 
-        self.__init__(simple_expression)
+        self.__init__(expression)

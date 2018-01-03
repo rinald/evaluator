@@ -1,37 +1,36 @@
 """Defines a parser for arbitrary expressions.
 
 Unlike simple expressions, they can also contain :
-    - Parentheses
-    - Functions
+    - Parentheses (DONE)
+    - Functions (TODO)
 """
 
-from .lexer import Lexer
-from .operation import Operation
-from .helpers import OPERATORS
+from .simple_expression import SimpleExpression, ParsingError, EvaluationError
 
-class Expression:
+class Expression(SimpleExpression):
     """Defines an expression."""
 
     def __init__(self, expression):
-        self.expression = expression
-        self._init()
+        super().__init__(expression)
     def __str__(self):
-        pass
-    def __repr__(self):
-        pass
-    def _init(self):
-        """Do the actual initialisation."""
-
-        pass
+        return "<expression '{}'>".format(self.expression)
+    def _append_token(self, token, operands, operations):
+        try:
+            super()._append_token(token, operands, operations)
+        except ParsingError as error:
+            token = error.args[0]
+            if token.type == "expression":
+                operands.append(Expression(token.value[1:-1]))
+            else:
+                raise error
     def _evaluate(self, node):
         """Do the actual evaluation."""
-
-        pass
-    def evaluate(self):
-        """Evaluate expression."""
-
-        pass
-    def reset(self, expression):
-        """Reset expression."""
         
-        pass
+        try:
+            return super()._evaluate(node)
+        except EvaluationError as error:
+            node = error.args[0]
+            if isinstance(node, Expression):
+                return self._evaluate(node.root)
+            else:
+                raise error

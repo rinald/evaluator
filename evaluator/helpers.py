@@ -8,6 +8,11 @@ def is_digit(character):
 
     return character != "" and character in "0123456789"
 
+def is_letter(character):
+    """Checks if character is a (lowercase) letter."""
+
+    return chatacter != "" and character in "abcdefghijklmnopqrstuvwxyz"
+
 def is_operator(character):
     """Checks if character is an operator."""
 

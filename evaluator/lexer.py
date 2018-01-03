@@ -1,6 +1,6 @@
 """Defines a lexer for mathematical expressions."""
 
-from .helpers import is_digit, is_operator, is_parenthese, is_whitespace
+from .helpers import is_digit, is_operator, is_parenthese, is_whitespace, is_letter
 from .token import Token, TokenError
 
 class Lexer:
@@ -49,15 +49,23 @@ class Lexer:
             while is_digit(self.current_character):
                 self.read_character()
             type_ = "integer"
-        elif self.current_character == 'x':
+        elif self.current_character == "x":
             self.read_character()
             type_ = "variable"
+        elif self.current_character == "(":
+            depth = 0
+            self.read_character() # Move cursor inside expression
+            while not (self.current_character == ")" and depth == 0):
+                if self.current_character == "(":
+                    depth += 1
+                if self.current_character == ")":
+                    depth -= 1
+                self.read_character()
+            self.read_character() # Move cursor outside expression
+            type_ = "expression"
         elif is_operator(self.current_character):
             self.read_character()
             type_ = "operator"
-        elif is_parenthese(self.current_character):
-            self.read_character()
-            type_ = "parenthese"
         else:
             raise TokenError("Invalid character.")
 
