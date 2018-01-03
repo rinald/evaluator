@@ -1,7 +1,8 @@
 """Defines a lexer for mathematical expressions."""
 
+from .token import Token
+from .errors import ReadingError
 from .helpers import is_digit, is_operator, is_parenthese, is_whitespace, is_letter
-from .token import Token, TokenError
 
 class Lexer:
     """Lexer for mathematical expressions.
@@ -67,7 +68,7 @@ class Lexer:
             self.read_character()
             type_ = "operator"
         else:
-            raise TokenError("Invalid character.")
+            raise ReadingError("Invalid character.")
 
         value = self.expression[self.reading_position : self.cursor_position]
         self.reading_position = self.cursor_position

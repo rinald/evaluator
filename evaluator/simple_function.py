@@ -1,91 +1,39 @@
-"""Defines a parser for simple functions."""
+"""Defines a parser for simple functions with one variable (x)."""
 
-from .lexer import Lexer
-from .operation import Operation
 from .helpers import OPERATORS
+from .operation import Operation
+from .simple_expression import SimpleExpression
+from .errors import ParsingError, EvaluationError
 
-class SimpleFunction:
+class SimpleFunction(SimpleExpression):
     """Defines a simple function."""
 
-    def __init__(self, functional_expression):
-        self.expression = functional_expression
-        self._init(functional_expression)
+    def __init__(self, expression):
+        super().__init__(expression)
     def __str__(self):
         return "<function : {}>".format(self.expression)
-    def __repr__(self):
-        return self.__str__()
     def __call__(self, x):
         return self.evaluate(x)
-    def _init(self, functional_expression):
-        """Do the actual initialisation."""
-
-        operands = [] # Will contain operands as integers
-        operations = [] # Will contain operations
-
-        lexer = Lexer(functional_expression)
-
-        for token in lexer:
-            if token.type == "integer":
-                operands.append(int(token.value))
-            elif token.type == "variable":
+    def _append_token(self, token, operands, operations):
+        try:
+            super()._append_token(token, operands, operations)
+        except ParsingError as error:
+            token = error.args[0]
+            if token.type == "variable":
                 operands.append(token.value)
-            elif token.type == "operator":
-                operations.append(Operation(None, token.value, None))
             else:
-                pass
-        # Build tree
-        while operations != []:
-            # Associate operands with operations
-            # Always associate the firsts and the lasts
-            operations[0].left = operands[0]
-            operations[-1].right = operands[-1]
-            # Associate the middle operands
-            for i in range(1, len(operands) - 1):
-                left_priority = OPERATORS[operations[i-1].operator]["priority"]
-                right_priority = OPERATORS[operations[i].operator]["priority"]
-
-                if left_priority >= right_priority:
-                    operations[i-1].right = operands[i]
-                else:
-                    operations[i].left = operands[i]
-
-            operands_ = []
-            operations_ = []
-            
-            for operation in operations:
-                if (operation.left is not None) and (operation.right is None):
-                    operands_.append(operation.left)
-                    operations_.append(operation)
-                elif (operation.left is None) and (operation.right is not None):
-                    operands_.append(operation.right)
-                    operations_.append(operation)
-                elif (operation.left is not None) and (operation.right is not None):
-                    operands_.append(operation)
-                else:
-                    operations_.append(operation)
-
-            operands = operands_
-            operations = operations_
-
-        # Assign the root operation
-        self.root = operands[0]
+                raise error
     def _evaluate(self, node, x):
-        """Do the actual evaluation."""
-
         if isinstance(node, int):
             return node
         elif node == "x":
             return x
-        function = OPERATORS[node.operator]["function"]
-        left = self._evaluate(node.left, x)
-        right = self._evaluate(node.right, x)
-        return function(left, right)
+        elif isinstance(node, Operation):
+            function = OPERATORS[node.operator]["function"]
+            left = self._evaluate(node.left, x)
+            right = self._evaluate(node.right, x)
+            return function(left, right)
+        else:
+            raise EvaluationError(node)
     def evaluate(self, x):
-        """Evaluate f(x)."""
-
         return self._evaluate(self.root, x)
-
-    def reset(self, functional_expression):
-        """Reset function."""
-
-        self.__init__(functional_expression)

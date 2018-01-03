@@ -4,14 +4,9 @@ A simple expression has no parentheses.
 """
 
 from .lexer import Lexer
-from .operation import Operation
 from .helpers import OPERATORS
-
-class EvaluationError(Exception):
-    pass
-
-class ParsingError(Exception):
-    pass
+from .operation import Operation
+from .errors import ParsingError, EvaluationError
 
 class SimpleExpression:
     """Defines a simple expression."""
@@ -20,7 +15,7 @@ class SimpleExpression:
         self.expression = expression
         self._init(expression)
     def __str__(self):
-        return "<simple expression '{}'>".format(self.expression)
+        return "<expression '{}'>".format(self.expression)
     def __repr__(self):
         return self.__str__()
     def _append_token(self, token, operands, operations):
@@ -85,6 +80,7 @@ class SimpleExpression:
             return function(left, right)
         else:
             raise EvaluationError(node)
+
     def evaluate(self):
         """Evaluate expression."""
 
