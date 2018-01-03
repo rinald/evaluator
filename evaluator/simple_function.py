@@ -1,4 +1,7 @@
-"""Defines a parser for simple functions with one variable (x)."""
+"""Defines a parser for simple functions with one variable.
+
+A simple function has no parentheses.
+"""
 
 from .helpers import OPERATORS
 from .operation import Operation

@@ -13,8 +13,3 @@ class Operation:
         return "({}{}{})".format(self.left, self.operator, self.right)
     def __repr__(self):
         return self.__str__()
-    def evaluate(self):
-        """Evaluate operation."""
-
-        function = OPERATORS[self.operator]["function"]
-        return function(self.left, self.right)

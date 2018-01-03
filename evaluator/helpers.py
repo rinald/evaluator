@@ -18,11 +18,6 @@ def is_operator(character):
 
     return character != "" and character in "+-*/%^"
 
-def is_parenthese(character):
-    """Checks if character is a parenthese."""
-
-    return character != "" and character in "()"
-
 def is_whitespace(character):
     """Checks if character is a whitespace."""
 

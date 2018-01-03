@@ -1,4 +1,8 @@
-"""Defines a parser for functions with one variable (x)."""
+"""Defines a parser for arbitrary functions with one variable.
+
+Currently only operators, integers, parentheses and 'x' are allowed.
+For negative integers you have to write (0-i), where i is a positive integer.
+"""
 
 from .simple_function import SimpleFunction
 from .errors import ParsingError, EvaluationError

@@ -2,7 +2,7 @@
 
 from .token import Token
 from .errors import ReadingError
-from .helpers import is_digit, is_operator, is_parenthese, is_whitespace, is_letter
+from .helpers import is_digit, is_operator, is_whitespace, is_letter
 
 class Lexer:
     """Lexer for mathematical expressions.
