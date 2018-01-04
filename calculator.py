@@ -10,7 +10,8 @@ from gi.repository import Gtk
 class CalculatorWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Calculator")
-        self.set_size_request(200, 50)
+        self.set_size_request(300, 100)
+        self.set_resizable(False)
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         self.add(vbox)
