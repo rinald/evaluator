@@ -11,7 +11,7 @@ def is_digit(character):
 def is_letter(character):
     """Checks if character is a (lowercase) letter."""
 
-    return chatacter != "" and character in "abcdefghijklmnopqrstuvwxyz"
+    return character != "" and character in "abcdefghijklmnopqrstuvwxyz"
 
 def is_operator(character):
     """Checks if character is an operator."""

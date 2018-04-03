@@ -50,10 +50,14 @@ class Lexer:
             while is_digit(self.current_character):
                 self.read_character()
             type_ = "integer"
-        elif self.current_character == "x":
+        elif is_letter(self.current_character):
+            while is_letter(self.current_character):
+                self.read_character()
+            type_ = "identifier"
+        elif is_operator(self.current_character):
             self.read_character()
-            type_ = "variable"
-        elif self.current_character == "(":
+            type_ = "operator"
+        elif self.current_character == "(": ### Special case
             depth = 0
             self.read_character() # Move cursor inside expression
             while not (self.current_character == ")" and depth == 0):
@@ -64,9 +68,6 @@ class Lexer:
                 self.read_character()
             self.read_character() # Move cursor outside expression
             type_ = "expression"
-        elif is_operator(self.current_character):
-            self.read_character()
-            type_ = "operator"
         else:
             raise ReadingError("Invalid character.")
 

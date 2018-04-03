@@ -75,9 +75,17 @@ class SimpleExpression:
             return node
         elif isinstance(node, Operation):
             function = OPERATORS[node.operator]["function"]
-            left = self._evaluate(node.left)
-            right = self._evaluate(node.right)
-            return function(left, right)
+            
+            if node.type == "infix":
+                left = self._evaluate(node.left)
+                right = self._evaluate(node.right)
+                return function(left, right)
+            elif node.type == "prefix":
+                right = self._evaluate(node.right)
+                return function(right)
+            else: # node.type == "postfix"
+                left = self._evaluate(node.left)
+                return function(left)
         else:
             raise EvaluationError(node)
 

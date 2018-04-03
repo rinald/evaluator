@@ -21,9 +21,11 @@ class SimpleFunction(SimpleExpression):
         try:
             super()._append_token(token, operands, operations)
         except ParsingError as error:
-            token = error.args[0]
-            if token.type == "variable":
-                operands.append(token.value)
+            if token.type == "identifier":
+                if token.value == "x":
+                    operands.append(token.value)
+                else:
+                    raise ParsingError("Invalid identifier.")
             else:
                 raise error
     def _evaluate(self, node, x):
@@ -33,9 +35,17 @@ class SimpleFunction(SimpleExpression):
             return x
         elif isinstance(node, Operation):
             function = OPERATORS[node.operator]["function"]
-            left = self._evaluate(node.left, x)
-            right = self._evaluate(node.right, x)
-            return function(left, right)
+            
+            if node.type == "infix":
+                left = self._evaluate(node.left, x)
+                right = self._evaluate(node.right, x)
+                return function(left, right)
+            elif node.type == "prefix":
+                right = self._evaluate(node.right, x)
+                return function(right)
+            else: # node.type == "postfix"
+                left = self._evaluate(node.left, x)
+                return function(left)
         else:
             raise EvaluationError(node)
     def evaluate(self, x):
