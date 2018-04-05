@@ -86,4 +86,14 @@ OPERATORS = {
         "type": "prefix",
         "function": math.tan
     },
+    "exp": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.exp
+    },
+    "log": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.log
+    },
 }
