@@ -9,7 +9,7 @@ from gi.repository import Gtk
 
 class CalculatorWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Calculate")
+        Gtk.Window.__init__(self, title="Calculator")
         self.set_size_request(300, 100)
         self.set_resizable(False)
 
@@ -20,13 +20,13 @@ class CalculatorWindow(Gtk.Window):
         vbox.pack_start(self.entry, True, True, 0)
 
         self.button = Gtk.Button()
-        self.button.set_label("Evaluate")
+        self.button.set_label("Calculate")
         self.button.connect("clicked", self.on_evaluate_clicked)
         vbox.pack_start(self.button, True, True, 0)
 
     def on_evaluate_clicked(self, button):
         expression = self.entry.get_text()
-        value = Expression(expression).evaluate()
+        value = Expression(expression).eval()
         self.entry.set_text(str(value))
 
 def main():
