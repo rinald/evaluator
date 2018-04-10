@@ -16,7 +16,7 @@ class SimpleFunction(SimpleExpression):
     def __str__(self):
         return "<function : {}>".format(self.expression)
     def __call__(self, x):
-        return self.evaluate(x)
+        return self.eval(x)
     def _append_token(self, token, operands, operations):
         try:
             super()._append_token(token, operands, operations)
@@ -28,8 +28,8 @@ class SimpleFunction(SimpleExpression):
                     raise ParsingError("Invalid identifier.")
             else:
                 raise error
-    def _evaluate(self, node, x):
-        if isinstance(node, int):
+    def _eval(self, node, x):
+        if isinstance(node, int) or isinstance(node, float):
             return node
         elif node == "x":
             return x
@@ -37,16 +37,16 @@ class SimpleFunction(SimpleExpression):
             function = OPERATORS[node.operator]["function"]
             
             if node.type == "infix":
-                left = self._evaluate(node.left, x)
-                right = self._evaluate(node.right, x)
+                left = self._eval(node.left, x)
+                right = self._eval(node.right, x)
                 return function(left, right)
             elif node.type == "prefix":
-                right = self._evaluate(node.right, x)
+                right = self._eval(node.right, x)
                 return function(right)
             else: # node.type == "postfix"
-                left = self._evaluate(node.left, x)
+                left = self._eval(node.left, x)
                 return function(left)
         else:
             raise EvaluationError(node)
-    def evaluate(self, x):
-        return self._evaluate(self.root, x)
+    def eval(self, x):
+        return self._eval(self.root, x)

@@ -19,8 +19,11 @@ class SimpleExpression:
     def __repr__(self):
         return self.__str__()
     def _append_token(self, token, operands, operations):
-        if token.type == "integer":
-            operands.append(int(token.value))
+        if token.type == "number":
+            if "." in token.value:
+                operands.append(float(token.value))
+            else:
+                operands.append(int(token.value))
         elif token.type == "operator":
             operations.append(Operation(None, token.value, None))                     
         else:
@@ -68,31 +71,31 @@ class SimpleExpression:
             operations = operations_
 
         self.root = operands[0]
-    def _evaluate(self, node):
+    def _eval(self, node):
         """Do the actual initialisation."""
 
-        if isinstance(node, int):
+        if isinstance(node, int) or isinstance(node, float):
             return node
         elif isinstance(node, Operation):
             function = OPERATORS[node.operator]["function"]
             
             if node.type == "infix":
-                left = self._evaluate(node.left)
-                right = self._evaluate(node.right)
+                left = self._eval(node.left)
+                right = self._eval(node.right)
                 return function(left, right)
             elif node.type == "prefix":
-                right = self._evaluate(node.right)
+                right = self._eval(node.right)
                 return function(right)
             else: # node.type == "postfix"
-                left = self._evaluate(node.left)
+                left = self._eval(node.left)
                 return function(left)
         else:
             raise EvaluationError(node)
 
-    def evaluate(self):
+    def eval(self):
         """Evaluate expression."""
 
-        return self._evaluate(self.root)
+        return self._eval(self.root)
     def reset(self, expression):
         """Reset expression."""
 

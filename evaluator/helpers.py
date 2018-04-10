@@ -6,7 +6,7 @@ import operator
 def is_digit(character):
     """Checks if character is a digit."""
 
-    return character != "" and character in "0123456789"
+    return character != "" and character in "0123456789."
 
 def is_letter(character):
     """Checks if character is a (lowercase) letter."""

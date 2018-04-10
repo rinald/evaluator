@@ -49,7 +49,7 @@ class Lexer:
         if is_digit(self.current_character):
             while is_digit(self.current_character):
                 self.read_character()
-            type_ = "integer"
+            type_ = "number"
         elif is_letter(self.current_character):
             while is_letter(self.current_character):
                 self.read_character()

@@ -9,7 +9,7 @@ from gi.repository import Gtk
 
 class CalculatorWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Calculator")
+        Gtk.Window.__init__(self, title="Calculate")
         self.set_size_request(300, 100)
         self.set_resizable(False)
 

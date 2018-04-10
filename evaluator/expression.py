@@ -33,11 +33,11 @@ class Expression(SimpleExpression):
                     operands.append(Expression(token.value[1:-1]))
             else:
                 raise error
-    def _evaluate(self, node):
+    def _eval(self, node):
         try:
-            return super()._evaluate(node)
+            return super()._eval(node)
         except EvaluationError as error:
             if isinstance(node, Expression):
-                return self._evaluate(node.root)
+                return self._eval(node.root)
             else:
                 raise error
