@@ -3,7 +3,7 @@ A simple evaluator for mathematical expressions.
 
 The **evaluator** module provides two external objects: **Expression** and **Function**.
 
-The **Expression** object represent a mathematical expression. It supports expressions with integers, operators, parentheses and also embedded mathematical functions. For negative integers you have to write **(0-i)** where **i** is a positive integer.
+The **Expression** object represent a mathematical expression. It supports expressions with numbers, operators, parentheses and also embedded mathematical functions. For negative numbers you have to write **(0-i)** where **i** is a positive number.
 
 The **Function** object represents a one-variable mathematical function. It essentially is just an expression with variable **x**.
 It is a callable object, so you can call it just like an ordinary function.
