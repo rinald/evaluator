@@ -24,7 +24,9 @@ class Expression(SimpleExpression):
                 else:
                     raise ParsingError("Invalid identifier.")
             elif token.type == "expression":
-                if isinstance(operands[-1], Operation):
+                if len(operands) == 0:
+                    operands.append(Expression(token.value[1:-1]))
+                elif isinstance(operands[-1], Operation):
                     if operands[-1].type == "prefix":
                         operands[-1].right = Expression(token.value[1:-1])
                     else:

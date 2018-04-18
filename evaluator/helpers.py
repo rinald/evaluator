@@ -61,6 +61,16 @@ OPERATORS = {
         "type": "prefix",
         "function": abs
     },
+    "sqrt": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.sqrt
+    },
+    "factorial": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.factorial
+    },
     "floor": {
         "priority": 4,
         "type": "prefix",
@@ -86,14 +96,34 @@ OPERATORS = {
         "type": "prefix",
         "function": math.tan
     },
+    "asin": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.asin
+    },
+    "acos": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.acos
+    },
+    "atan": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.atan
+    },
     "exp": {
         "priority": 4,
         "type": "prefix",
         "function": math.exp
     },
-    "log": {
+    "ln": {
         "priority": 4,
         "type": "prefix",
         "function": math.log
+    },
+    "log": {
+        "priority": 4,
+        "type": "prefix",
+        "function": math.log10
     },
 }

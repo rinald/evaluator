@@ -14,7 +14,7 @@ class SimpleFunction(SimpleExpression):
     def __init__(self, expression):
         super().__init__(expression)
     def __str__(self):
-        return "<function : {}>".format(self.expression)
+        return "<function : '{}'>".format(self.expression)
     def __call__(self, x):
         return self.eval(x)
     def _append_token(self, token, operands, operations):

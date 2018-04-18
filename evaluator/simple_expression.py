@@ -72,7 +72,7 @@ class SimpleExpression:
 
         self.root = operands[0]
     def _eval(self, node):
-        """Do the actual initialisation."""
+        """Do the actual evaluation."""
 
         if isinstance(node, int) or isinstance(node, float):
             return node

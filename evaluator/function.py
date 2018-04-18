@@ -24,6 +24,8 @@ class Function(SimpleFunction):
                 else:
                     raise ParsingError("Invalid identifier.")
             elif token.type == "expression":
+                if len(operands) == 0:
+                    operands.append(Function(token.value[1:-1]))
                 if isinstance(operands[-1], Operation):
                     if operands[-1].type == "prefix":
                         operands[-1].right = Function(token.value[1:-1])
@@ -33,11 +35,11 @@ class Function(SimpleFunction):
                     operands.append(Function(token.value[1:-1]))
             else:
                 raise error
-    def _evaluate(self, node, x):
+    def _eval(self, node, x):
         try:
-            return super()._evaluate(node, x)
+            return super()._eval(node, x)
         except EvaluationError as error:
             if isinstance(node, Function):
-                return self._evaluate(node.root, x)
+                return self._eval(node.root, x)
             else:
                 raise error

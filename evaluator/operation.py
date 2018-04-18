@@ -12,6 +12,10 @@ class Operation:
         self.right = right
         
     def __str__(self):
-        return "({}{}{})".format(self.left, self.operator, self.right)
+        return "({}{}{})".format(
+            self.left if self.left is not None else "",
+            self.operator,
+            self.right if self.right is not None else ""
+        )
     def __repr__(self):
         return self.__str__()

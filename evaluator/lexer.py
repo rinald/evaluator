@@ -71,7 +71,7 @@ class Lexer:
         else:
             raise ReadingError("Invalid character.")
 
-        value = self.expression[self.reading_position : self.cursor_position]
+        value = self.expression[self.reading_position:self.cursor_position]
         self.reading_position = self.cursor_position
 
         return Token(type_, value)
