@@ -26,7 +26,7 @@ class Function(SimpleFunction):
             elif token.type == "expression":
                 if len(operands) == 0:
                     operands.append(Function(token.value[1:-1]))
-                if isinstance(operands[-1], Operation):
+                elif isinstance(operands[-1], Operation):
                     if operands[-1].type == "prefix":
                         operands[-1].right = Function(token.value[1:-1])
                     else:
