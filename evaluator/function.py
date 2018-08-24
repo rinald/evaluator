@@ -1,7 +1,6 @@
 """Defines a parser for arbitrary functions with one variable.
 
-Currently only operators, integers, parentheses and 'x' are allowed.
-For negative integers you have to write (0-i), where i is a positive integer.
+For negative numbers you have to write '(0-n)', where 'n' is a positive number.
 """
 
 from .simple_function import SimpleFunction

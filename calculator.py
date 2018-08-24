@@ -25,9 +25,9 @@ class CalculatorWindow(Gtk.Window):
         vbox.pack_start(self.button, True, True, 0)
 
     def on_evaluate_clicked(self, button):
-        expression = self.entry.get_text()
-        value = Expression(expression).eval()
-        self.entry.set_text(str(value))
+        expression_string = self.entry.get_text()
+        expression_value = Expression(expression_string).eval()
+        self.entry.set_text(str(expression_value))
 
 def main():
     window = CalculatorWindow()

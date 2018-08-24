@@ -1,8 +1,4 @@
-"""Defines a parser for arbitrary expressions.
-
-Currently only operators, integers and parentheses are allowed.
-For negative integers you have to write (0-i), where i is a positive integer.
-"""
+"""Defines a parser for arbitrary expressions."""
 
 from .simple_expression import SimpleExpression
 from .errors import ParsingError, EvaluationError

@@ -69,7 +69,7 @@ class Lexer:
             self.read_character() # Move cursor outside expression
             type_ = "expression"
         else:
-            raise ReadingError("Invalid character.")
+            raise ReadingError("Invalid character : ".format(self.current_character))
 
         value = self.expression[self.reading_position:self.cursor_position]
         self.reading_position = self.cursor_position
