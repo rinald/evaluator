@@ -1,15 +1,17 @@
 #!/usr/bin/python3
-"""A simple calculator application."""
-
-from evaluator import Expression
+'''A simple calculator application.'''
 
 import gi
-gi.require_version("Gtk", "3.0")
+gi.require_version('Gtk', '3.0')
+
 from gi.repository import Gtk
+from evaluator import Expression
+
+
 
 class CalculatorWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Calculator")
+        Gtk.Window.__init__(self, title='Calculator')
         self.set_size_request(300, 100)
         self.set_resizable(False)
 
@@ -20,8 +22,8 @@ class CalculatorWindow(Gtk.Window):
         vbox.pack_start(self.entry, True, True, 0)
 
         self.button = Gtk.Button()
-        self.button.set_label("Calculate")
-        self.button.connect("clicked", self.on_evaluate_clicked)
+        self.button.set_label('Calculate')
+        self.button.connect('clicked', self.on_evaluate_clicked)
         vbox.pack_start(self.button, True, True, 0)
 
     def on_evaluate_clicked(self, button):
@@ -31,7 +33,7 @@ class CalculatorWindow(Gtk.Window):
 
 def main():
     window = CalculatorWindow()
-    window.connect("delete-event", Gtk.main_quit)
+    window.connect('delete-event', Gtk.main_quit)
     window.show_all()
     Gtk.main()
 

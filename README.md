@@ -14,14 +14,14 @@ _For a list of operators and functions, see **evaluator/helpers.py**_
 ```python
 from evaluator import Expression, Function
 
-e = Expression("(1+2)*(3+4)-(((5)))") # Creates Expression object
+e = Expression('(1+2)*(3+4)-(((5)))') # Creates Expression object
 print(e.eval()) # Evaluates the expression and prints it to stdout
-e.reset("2^10 % 365") # Reset the expression
+e.reset('2^10 % 365') # Reset the expression
 
 f = Function('x^2+2*x+1') # Creates Function object
 print(f(-1)) # Prints 0
 print(f.eval(-1)) # Same as previous line
-f.reset("log(abs(x))")
+f.reset('log(abs(x))')
 
 ```
 
