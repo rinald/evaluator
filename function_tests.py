@@ -1,6 +1,6 @@
 import unittest
 from math import sin, cos, log, log10, exp
-from evaluator import Expression as Exp
+from evaluator import Function as Fun
 
 class FunctionTest(unittest.TestCase):
     pass

@@ -1,7 +1,7 @@
 '''Defines a lexer for mathematical expressions.'''
 
 from .token import Token
-from .errors import ReadingError
+from .errors import ReadError
 from .util import is_digit, is_operator, is_whitespace, is_letter
 
 class Lexer:
@@ -30,14 +30,14 @@ class Lexer:
 
         if self.current_character == Lexer.EOI:
             raise StopIteration
-        
+
         return self.get_token()
 
     def read_character(self):
         '''Reads next character.'''
 
         self.cursor_position += 1
-        
+
         if self.cursor_position <= len(self.expression) - 1:
             self.current_character = self.expression[self.cursor_position]
         else:
@@ -49,14 +49,14 @@ class Lexer:
         if is_digit(self.current_character):
             while is_digit(self.current_character):
                 self.read_character()
-            type_ = 'number'
+            token_type = 'number'
         elif is_letter(self.current_character):
             while is_letter(self.current_character):
                 self.read_character()
-            type_ = 'identifier'
+            token_type = 'identifier'
         elif is_operator(self.current_character):
             self.read_character()
-            type_ = 'operator'
+            token_type = 'operator'
         elif self.current_character == '(': ### Special case
             depth = 0
             self.read_character() # Move cursor inside expression
@@ -67,11 +67,11 @@ class Lexer:
                     depth -= 1
                 self.read_character()
             self.read_character() # Move cursor outside expression
-            type_ = 'expression'
+            token_type = 'expression'
         else:
-            raise ReadingError('Invalid character : '.format(self.current_character))
+            raise ReadError('Invalid character "{}"'.format(self.current_character))
 
         value = self.expression[self.reading_position:self.cursor_position]
         self.reading_position = self.cursor_position
 
-        return Token(type_, value)
+        return Token(token_type, value)

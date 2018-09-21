@@ -1,29 +1,20 @@
 '''Defines a parser for arbitrary functions with one variable.'''
 
-from .errors import ParsingError, EvaluationError
-from .operation import Operation
-from .util import OPERATORS, CONSTANTS
+# TODO : Generalise for multi-variable functions
+
+from .expression import Expression
 
 class Function:
     '''Defines a function.'''
 
     def __init__(self, expression):
-        pass
-
-    def _parse(self, token):
-        '''Parse a token.'''
-        
-        pass
-
-    def _init(self):
-        '''Initialise Function AST (Operation Tree).'''
-        
-        pass
+        self.expression = expression
 
     def eval(self, val):
         '''Evaluate the function.'''
-        
-        pass
+
+        expression = self.expression.replace('x', str(val))
+        return Expression(expression).eval()
 
     def __call__(self, val):
         return self.eval(val)

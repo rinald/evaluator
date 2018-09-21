@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 '''A simple calculator application.'''
 
 import gi
@@ -6,8 +5,6 @@ gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
 from evaluator import Expression
-
-
 
 class CalculatorWindow(Gtk.Window):
     def __init__(self):

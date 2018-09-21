@@ -26,11 +26,11 @@ def is_whitespace(character):
 # TODO : Add support for constants
 CONSTANTS = {
     'e': math.e,
-    'pi': math.pi
+    'pi': math.pi,
 }
 
 OPERATORS = {
-    'infix': 
+    'infix':
     {
         '+': {
             'priority': 0,
@@ -102,13 +102,17 @@ OPERATORS = {
         'log': {
             'priority': 3,
             'function': math.log10
-        } 
+        }
     },
-    'postfix': 
+    'postfix':
     {
         '!': {
             'priority': 3,
             'function': math.factorial
+        },
+        '%': {
+            'priority': 3,
+            'function': lambda x: x/100
         }
     }
 }
