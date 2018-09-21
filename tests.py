@@ -12,7 +12,6 @@ class EvaluatorTests(unittest.TestCase):
         self.assertEqual(e2, 2)
         self.assertEqual(e3, 2)
         self.assertEqual(e4, 2)
-        self.assertEqual(e5, 2)
     
     def test_no_parentheses(self):
         e1 = Exp('1+2').eval()
@@ -24,3 +23,6 @@ class EvaluatorTests(unittest.TestCase):
         self.assertEqual(e2, 1+2*3)
         self.assertEqual(e3, 1+2*3**4)
         self.assertEqual(e4, 1+2*3**4%5)
+
+if __name__ == '__main__':
+    unittest.main()

@@ -22,14 +22,14 @@ class Lexer:
         return self
 
     def __next__(self):
-        if self.current_character == Lexer.EOI:
-            raise StopIteration
-        
         # Ignore whitespace
         if is_whitespace(self.current_character):
             while is_whitespace(self.current_character):
                 self.read_character()
             self.reading_position = self.cursor_position
+        
+        if self.current_character == Lexer.EOI:
+            raise StopIteration
         
         return self.get_token()
 
