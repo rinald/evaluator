@@ -6,16 +6,16 @@ from .errors import EvaluateError
 class Operation:
     '''Defines a mathematical operation.'''
 
-    def __init__(self, left, operator, right):
-        self.left = left
+    def __init__(self, operator, left=None, right=None):  
         self.operator = operator
+        self.left = left
         self.right = right
 
-        if self.left is not None and self.right is not None:
+        if left != None and right != None:
             self.type = 'infix'
-        elif self.left is None and self.right is not None:
+        elif left == None and right != None:
             self.type = 'prefix'
-        elif self.left is not None and self.right is None:
+        elif left != None and right == None:
             self.type = 'postfix'
         else:
             self.type = 'undefined'
@@ -65,4 +65,4 @@ class Operation:
             return function(left)
 
         else:
-            raise EvaluationError('Cannot evaluate operation of type "undefined".')
+            raise EvaluateError('Cannot evaluate operation of type \'undefined\'.')

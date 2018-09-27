@@ -1,8 +1,7 @@
-'''Defines a parser for arbitrary functions with one variable.'''
+'''Defines the Function object.'''
 
-# TODO : Generalise for multi-variable functions
-
-from .expression import Expression
+from .parser import Parser
+from .operation import Operation
 
 class Function:
     '''Defines a function.'''
@@ -10,11 +9,15 @@ class Function:
     def __init__(self, expression):
         self.expression = expression
 
-    def eval(self, val):
+    def eval(self, **kwargs):
         '''Evaluate the function.'''
 
-        expression = self.expression.replace('x', str(val))
-        return Expression(expression).eval()
+        self.ast = Parser(self.expression, vars_=kwargs).parse()
 
-    def __call__(self, val):
-        return self.eval(val)
+        if isinstance(self.ast, Operation):
+            return self.ast.eval()
+        else:
+            return self.ast
+
+    def __call__(self, **kwargs):
+        return self.eval(**kwargs)

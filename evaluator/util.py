@@ -1,29 +1,15 @@
 '''Defines utility functions and structures.'''
 
-import math
-import operator
+import math, operator
 
-def is_digit(character):
-    '''Checks if character is a digit.'''
+MAX_BP = 4
 
-    return character != '' and character in '0123456789.'
+is_digit      = lambda ch: ch != '' and ch in '0123456789.'
+is_letter     = lambda ch: ch != '' and ch in 'abcdefghijklmnopqrstuvwxyz'
+is_operator   = lambda ch: ch != '' and ch in '+-*/%^!'
+is_bracket    = lambda ch: ch != '' and ch in '()[]{}<>'
+is_whitespace = lambda ch: ch != '' and ch in ' \n\t'
 
-def is_letter(character):
-    '''Checks if character is a (lowercase) letter.'''
-
-    return character != '' and character in 'abcdefghijklmnopqrstuvwxyz'
-
-def is_operator(character):
-    '''Checks if character is an operator.'''
-
-    return character != '' and character in '+-*/%^'
-
-def is_whitespace(character):
-    '''Checks if character is a whitespace.'''
-
-    return character != '' and character in ' \n\t'
-
-# TODO : Add support for constants
 CONSTANTS = {
     'e': math.e,
     'pi': math.pi,
@@ -33,85 +19,89 @@ OPERATORS = {
     'infix':
     {
         '+': {
-            'priority': 0,
-            'function': operator.add
+            'bp': 1,
+            'function': lambda x,y: x+y
         },
         '-': {
-            'priority': 0,
-            'function': operator.sub
+            'bp': 1,
+            'function': lambda x,y: x-y
         },
         '*': {
-            'priority': 1,
-            'function': operator.mul
+            'bp': 2,
+            'function': lambda x,y: x*y
         },
         '/': {
-            'priority': 1,
-            'function': operator.truediv
+            'bp': 2,
+            'function': lambda x,y: x/y
         },
         '%': {
-            'priority': 1,
-            'function': operator.mod
+            'bp': 2,
+            'function': lambda x,y: x%y
         },
         '^': {
-            'priority': 2,
-            'function': operator.pow
+            'bp': 3,
+            'function': lambda x,y: x**y
         },
     },
     'prefix':
     {
+        '+': {
+            'bp': 4,
+            'function': lambda x: x
+        },
         '-': {
-            'priority': 3,
-            'function': operator.neg
+            'bp': 4,
+            'function': lambda x: -x
         },
         'abs': {
-            'priority': 3,
-            'function': operator.abs
+            'bp': 4,
+            'function': lambda x: abs(x)
         },
         'sqrt': {
-            'priority': 3,
-            'function': math.sqrt
+            'bp': 4,
+            'function': lambda x: math.sqrt(x)
         },
         'floor': {
-            'priority': 3,
-            'function': math.floor
+            'bp': 4,
+            'function': lambda x: math.floor(x)
         },
         'ceil': {
-            'priority': 3,
-            'function': math.ceil
+            'bp': 4,
+            'function': lambda x: math.ceil(x)
         },
         'sin': {
-            'priority': 3,
-            'function': math.sin
+            'bp': 4,
+            'function':lambda x: math.sin(x)
         },
         'cos': {
-            'priority': 3,
-            'function': math.cos
+            'bp': 4,
+            'function': lambda x: math.cos(x)
         },
         'tan': {
-            'priority': 3,
-            'function': math.tan
+            'bp': 4,
+            'function': lambda x: math.tan(x)
         },
         'exp': {
-            'priority': 3,
-            'function': math.exp
+            'bp': 4,
+            'function': lambda x: math.exp(x)
         },
         'ln': {
-            'priority': 3,
-            'function': math.log
+            'bp': 4,
+            'function': lambda x: math.log(x)
         },
         'log': {
-            'priority': 3,
-            'function': math.log10
+            'bp': 4,
+            'function': lambda x: math.log10(x)
         }
     },
     'postfix':
     {
         '!': {
-            'priority': 3,
-            'function': math.factorial
+            'bp': 4,
+            'function': lambda x: math.factorial(x)
         },
         '%': {
-            'priority': 3,
+            'bp': 4,
             'function': lambda x: x/100
         }
     }
