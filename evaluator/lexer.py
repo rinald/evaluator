@@ -37,19 +37,6 @@ class Lexer:
 
         self.ignore_whitespace()
 
-<<<<<<< HEAD
-    def __next__(self):
-        # Ignore whitespace
-        if is_whitespace(self.current_character):
-            while is_whitespace(self.current_character):
-                self.read_character()
-            self.reading_position = self.cursor_position
-        
-        if self.current_character == Lexer.EOI:
-            raise StopIteration
-        
-        return self.get_token()
-=======
         token = self.read()
         self.cursor_at = self.read_from
         if self.current != Lexer.EOI:
@@ -67,7 +54,6 @@ class Lexer:
         
     def read(self):
         '''Read next token.'''
->>>>>>> rewrite
 
         if self.current == Lexer.EOI:
             return None
