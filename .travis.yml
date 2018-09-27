@@ -8,3 +8,4 @@ python:
 script:
   - python expression_tests.py
   - python function_tests.py
+  - python lexer_tests.py
