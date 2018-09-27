@@ -6,4 +6,6 @@ python:
   - "3.6"
   - "3.7-dev"
 script:
-  - python tests.py
+  - python expression_tests.py
+  - python function_tests.py
+  - python lexer_tests.py

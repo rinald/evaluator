@@ -1,26 +1,43 @@
-"""Defines a lexer for mathematical expressions."""
+'''Defines a lexer for mathematical expressions.'''
 
 from .token import Token
-from .errors import ReadingError
-from .helpers import is_digit, is_operator, is_whitespace, is_letter
+from .errors import ReadError
+from .util import is_digit, is_operator, is_whitespace, is_letter, is_bracket
+from .util import CONSTANTS, OPERATORS
 
 class Lexer:
-    """Lexer for mathematical expressions.
+    '''Lexer for mathematical expressions.'''
 
-    Iterable that iterates through tokens.
-    """
-
-    EOI = "" # End Of Input
+    EOI = '' # end of input
 
     def __init__(self, expression):
         self.expression = expression
-        self.cursor_position = 0
-        self.reading_position = 0 # Position to start reading from
-        self.current_character = expression[0]
+        self.cursor_at = 0
+        self.read_from = 0
+        self.current = expression[0] # character under cursor
 
-    def __iter__(self):
-        return self
+    def ignore_whitespace(self):
+        while is_whitespace(self.current):
+            self.move()
+        
+        self.read_from = self.cursor_at
 
+    def move(self):
+        '''Move cursor forward.'''
+
+        self.cursor_at += 1
+
+        if self.cursor_at <= len(self.expression) - 1:
+            self.current = self.expression[self.cursor_at]
+        else:
+            self.current = Lexer.EOI
+    
+    def peek(self):
+        '''Peek next token.'''
+
+        self.ignore_whitespace()
+
+<<<<<<< HEAD
     def __next__(self):
         # Ignore whitespace
         if is_whitespace(self.current_character):
@@ -32,46 +49,79 @@ class Lexer:
             raise StopIteration
         
         return self.get_token()
+=======
+        token = self.read()
+        self.cursor_at = self.read_from
+        if self.current != Lexer.EOI:
+            self.current = self.expression[self.cursor_at]
+        return token
 
-    def read_character(self):
-        """Reads next character."""
+    def next(self):
+        '''Return next token.'''
 
-        self.cursor_position += 1
+        self.ignore_whitespace()
         
-        if self.cursor_position <= len(self.expression) - 1:
-            self.current_character = self.expression[self.cursor_position]
+        token = self.read()
+        self.read_from = self.cursor_at
+        return token
+        
+    def read(self):
+        '''Read next token.'''
+>>>>>>> rewrite
+
+        if self.current == Lexer.EOI:
+            return None
+
+        if is_digit(self.current):
+            while is_digit(self.current):
+                self.move()
+            generic_type = 'number'
+        elif is_letter(self.current):
+            while is_letter(self.current):
+                self.move()
+            generic_type = 'identifier'
+        elif is_operator(self.current):
+            self.move()
+            generic_type = 'operator'
+        elif is_bracket(self.current):
+            self.move()
+            generic_type = 'bracket'
         else:
-            self.current_character = Lexer.EOI
+            raise ReadError('Invalid character \'{}\''.format(self.current))
 
-    def get_token(self):
-        """Return next token."""
+        value = self.expression[self.read_from:self.cursor_at]
 
-        if is_digit(self.current_character):
-            while is_digit(self.current_character):
-                self.read_character()
-            type_ = "number"
-        elif is_letter(self.current_character):
-            while is_letter(self.current_character):
-                self.read_character()
-            type_ = "identifier"
-        elif is_operator(self.current_character):
-            self.read_character()
-            type_ = "operator"
-        elif self.current_character == "(": ### Special case
-            depth = 0
-            self.read_character() # Move cursor inside expression
-            while not (self.current_character == ")" and depth == 0):
-                if self.current_character == "(":
-                    depth += 1
-                if self.current_character == ")":
-                    depth -= 1
-                self.read_character()
-            self.read_character() # Move cursor outside expression
-            type_ = "expression"
+        # Return specific types
+        if generic_type == 'number':
+            if '.' in value:
+                type_ = 'decimal'
+            else:
+                type_ = 'integer'
+        elif generic_type == 'identifier':
+            if value in OPERATORS['prefix']:
+                type_ = 'function'
+            elif value in CONSTANTS:
+                type_ = 'constant'
+            else:
+                type_ = 'variable'
+        elif generic_type == 'bracket':
+            if value == '(':
+                type_ = 'left_parenthesis'
+            elif value == ')':
+                type_ = 'right_parenthesis'
+            elif value == '[':
+                type_ = 'left_bracket'
+            elif value == ']':
+                type_ = 'right_bracket'
+            elif value == '{':
+                type_ = 'left_brace'
+            elif value == '}':
+                type_ = 'right_brace'
+            elif value == '<':
+                type_ = 'left_angular'
+            elif value == '>':
+                type_ = 'right_angular'
         else:
-            raise ReadingError("Invalid character.")
-
-        value = self.expression[self.reading_position:self.cursor_position]
-        self.reading_position = self.cursor_position
+            type_ = 'operator'
 
         return Token(type_, value)

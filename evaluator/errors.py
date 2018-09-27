@@ -1,16 +1,21 @@
-"""Defines evaluator errors."""
+'''Defines evaluator errors.'''
 
-class EvaluationError(Exception):
-    """Raised when the expression can't be evaluated."""
-
-    pass
-
-class ParsingError(Exception):
-    """Raised when a token can't be parsed."""
+class EvaluateError(Exception):
+    '''Raised when the expression can't be evaluated.'''
 
     pass
 
-class ReadingError(Exception):
-    """Raised when the lexer doesn't know how to interpret a character."""
+class ParseError(Exception):
+    '''Raised when a token can't be parsed.'''
+
+    pass
+
+class BuildError(Exception):
+    '''Raised when the AST cannot be built.'''
+
+    pass
+
+class ReadError(Exception):
+    '''Raised when the lexer doesn't know how to interpret a character.'''
 
     pass
