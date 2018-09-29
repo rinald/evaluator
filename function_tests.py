@@ -1,6 +1,6 @@
 import unittest
 from math import sin, cos, log, log10, exp, e, pi
-from evaluator import Function as Fun
+from evaluator import Fun
 
 class FunctionTest(unittest.TestCase):
     def test_x(self):

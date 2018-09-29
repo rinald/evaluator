@@ -1,6 +1,6 @@
 '''Defines utility functions and structures.'''
 
-import math, operator
+import math
 
 MAX_BP = 4
 
@@ -13,6 +13,8 @@ is_whitespace = lambda ch: ch != '' and ch in ' \n\t'
 CONSTANTS = {
     'e': math.e,
     'pi': math.pi,
+    'i': 1j,
+    'phi': (1 + math.sqrt(5)) / 2
 }
 
 OPERATORS = {
@@ -97,11 +99,11 @@ OPERATORS = {
     'postfix':
     {
         '!': {
-            'bp': 4,
+            'bp': 5,
             'function': lambda x: math.factorial(x)
         },
         '%': {
-            'bp': 4,
+            'bp': 5,
             'function': lambda x: x/100
         }
     }

@@ -17,6 +17,8 @@ class Lexer:
         self.current = expression[0] # character under cursor
 
     def ignore_whitespace(self):
+        '''Ignore whitespace characters.'''
+
         while is_whitespace(self.current):
             self.move()
         
@@ -40,7 +42,7 @@ class Lexer:
         token = self.read()
         self.cursor_at = self.read_from
         if self.current != Lexer.EOI:
-            self.current = self.expression[self.cursor_at]
+            self.current = self.expression[self.cursor_at] # reset cursor after read()
         return token
 
     def next(self):
@@ -55,9 +57,10 @@ class Lexer:
     def read(self):
         '''Read next token.'''
 
-        if self.current == Lexer.EOI:
+        if self.current == Lexer.EOI: # reached end of input
             return None
 
+        # First we get generic types
         if is_digit(self.current):
             while is_digit(self.current):
                 self.move()
@@ -77,37 +80,37 @@ class Lexer:
 
         value = self.expression[self.read_from:self.cursor_at]
 
-        # Return specific types
+        # Then we return specific types based on the value
         if generic_type == 'number':
             if '.' in value:
                 type_ = 'decimal'
             else:
                 type_ = 'integer'
         elif generic_type == 'identifier':
-            if value in OPERATORS['prefix']:
+            if value in OPERATORS['prefix']: # functions are just prefix operators
                 type_ = 'function'
             elif value in CONSTANTS:
                 type_ = 'constant'
             else:
-                type_ = 'variable'
+                type_ = 'variable' # all that's left is considered a variable
         elif generic_type == 'bracket':
             if value == '(':
-                type_ = 'left_parenthesis'
+                type_ = 'left_round'
             elif value == ')':
-                type_ = 'right_parenthesis'
+                type_ = 'right_round'
             elif value == '[':
-                type_ = 'left_bracket'
+                type_ = 'left_square'
             elif value == ']':
-                type_ = 'right_bracket'
+                type_ = 'right_square'
             elif value == '{':
-                type_ = 'left_brace'
+                type_ = 'left_curly'
             elif value == '}':
-                type_ = 'right_brace'
+                type_ = 'right_curly'
             elif value == '<':
                 type_ = 'left_angular'
             elif value == '>':
                 type_ = 'right_angular'
         else:
-            type_ = 'operator'
+            type_ = 'operator' # operators are just operators
 
         return Token(type_, value)

@@ -1,20 +1,22 @@
 '''Defines the Expression object.'''
 
 from .parser import Parser
-from .operation import Operation
+from .operation import Operation, simplify
 
 class Expression:
     '''Defines an expression.'''
 
     def __init__(self, expression):
         self.expression = expression
+        self.ast = Parser(expression).parse()
+
+    def __str__(self):
+        return '<expression \'{}\'>'.format(self.expression)
+
+    def __repr__(self):
+        return self.__str__()
     
     def eval(self):
         '''Evaluate the expression.'''
-        
-        self.ast = Parser(self.expression).parse()
 
-        if isinstance(self.ast, Operation):
-            return self.ast.eval()
-        else:
-            return self.ast
+        return simplify(self.ast, vars_=None)

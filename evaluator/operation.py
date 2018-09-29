@@ -1,7 +1,25 @@
 '''Defines a class for mathematical operations.'''
 
-from .util import OPERATORS
+from .token import Token
 from .errors import EvaluateError
+from .util import OPERATORS, CONSTANTS
+
+def simplify(node, vars_):
+    if isinstance(node, Operation):
+        value = node.eval(vars_)
+    elif isinstance(node, str):
+        variable = node
+        
+        if vars_ == None:
+            raise EvaluateError('Expressions can\'t have variables.')
+        elif variable not in vars_:
+            raise EvaluateError('Variable {} not initialised.'.format(variable))
+        else:
+            value = vars_[variable]
+    else:
+        value = node
+        
+    return value
 
 class Operation:
     '''Defines a mathematical operation.'''
@@ -30,37 +48,24 @@ class Operation:
     def __repr__(self):
         return self.__str__()
 
-    def eval(self):
+    def eval(self, vars_=None):
         '''Evaluate the operation.'''
 
         function = OPERATORS[self.type][self.operator]['function']
 
         if self.type == 'infix':
-            if isinstance(self.left, Operation):
-                left = self.left.eval()
-            else:
-                left = self.left
-
-            if isinstance(self.right, Operation):
-                right = self.right.eval()
-            else:
-                right = self.right
+            left = simplify(self.left, vars_)
+            right = simplify(self.right, vars_)
 
             return function(left, right)
 
         elif self.type == 'prefix':
-            if isinstance(self.right, Operation):
-                right = self.right.eval()
-            else:
-                right = self.right
+            right = simplify(self.right, vars_)
 
             return function(right)
 
         elif self.type == 'postfix':
-            if isinstance(self.left, Operation):
-                left = self.left.eval()
-            else:
-                left = self.left
+            left = simplify(self.left, vars_)
 
             return function(left)
 

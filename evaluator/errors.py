@@ -1,4 +1,4 @@
-'''Defines evaluator errors.'''
+'''Defines errors.'''
 
 class EvaluateError(Exception):
     '''Raised when the expression can't be evaluated.'''
@@ -7,11 +7,6 @@ class EvaluateError(Exception):
 
 class ParseError(Exception):
     '''Raised when a token can't be parsed.'''
-
-    pass
-
-class BuildError(Exception):
-    '''Raised when the AST cannot be built.'''
 
     pass
 

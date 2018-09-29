@@ -5,18 +5,21 @@ from .errors import ParseError
 from .operation import Operation
 from .util import OPERATORS, CONSTANTS, MAX_BP
 
+# TODO - Check for mismatched brackets
+# TODO - Implement postfix operations
+
 class Parser:
-    def __init__(self, expression, vars_=None):
+    def __init__(self, expression):
         self.expression = expression
         self.lexer = Lexer(expression)
-        self.vars = vars_
         self.depth = 0
 
     def bp(self, token):
         '''Return binding power of token.'''
+
         if token == None:
             return -1
-        if token.type == 'operator':
+        if token.type == 'operator': # operators except -, %, ! are always infix
             operator = token.value
             return self.depth * MAX_BP + OPERATORS['infix'][operator]['bp']
         elif token.type == 'function':
@@ -46,15 +49,7 @@ class Parser:
             return CONSTANTS[constant]
         elif token.type == 'variable':
             variable = token.value
-            
-            if self.vars == None:
-                raise ParseError('No variables allowed.')
-            elif self.vars == {}:
-                raise ParseError('No values specified.')
-            elif variable not in self.vars:
-                raise ParseError('No value specified for {}.'.format(variable))
-            else:
-                return self.vars[variable]
+            return variable
         elif token.type == 'operator':
             operator = token.value
             if operator in OPERATORS['prefix']:

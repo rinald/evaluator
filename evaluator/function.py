@@ -1,23 +1,25 @@
 '''Defines the Function object.'''
 
 from .parser import Parser
-from .operation import Operation
+from .operation import Operation, simplify
 
 class Function:
     '''Defines a function.'''
 
     def __init__(self, expression):
         self.expression = expression
+        self.ast = Parser(expression).parse()
+
+    def __str__(self):
+        return '<function \'{}\'>'.format(self.expression)
+
+    def __repr__(self):
+        return self.__str__()
 
     def eval(self, **kwargs):
         '''Evaluate the function.'''
 
-        self.ast = Parser(self.expression, vars_=kwargs).parse()
-
-        if isinstance(self.ast, Operation):
-            return self.ast.eval()
-        else:
-            return self.ast
+        return simplify(self.ast, vars_=kwargs)
 
     def __call__(self, **kwargs):
         return self.eval(**kwargs)

@@ -1,6 +1,6 @@
 import unittest
 from math import sin, cos, log, log10, exp, e, pi
-from evaluator import Expression as Exp
+from evaluator import Exp
 
 class ExpressionTest(unittest.TestCase):
     def test_no_parentheses(self):
