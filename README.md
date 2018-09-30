@@ -7,7 +7,7 @@ The **Expression** object represent a mathematical expression. It supports expre
 
 ### Example usage:
 ```python
-from evaluator import Expression as Exp
+from evaluator import Exp
 
 e = Exp('(1+2)*3-4')
 print(e.eval()) # Prints 5
@@ -23,7 +23,7 @@ The **Function** object represents a multivariable mathematical function. It ess
 ### Example usage:
 
 ```python
-from evaluator import Function as Fun
+from evaluator import Fun
 
 ## Single variable function
 f = Fun('x^2+2*x+1')

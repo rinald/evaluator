@@ -8,7 +8,7 @@ class ExpressionTest(unittest.TestCase):
         self.assertEqual(Exp('1+2-3').eval(), 1+2-3)
         self.assertEqual(Exp('1+2-3*4').eval(), 1+2-3*4)
         self.assertEqual(Exp('1+2-3*4^5').eval(), 1+2-3*4**5)
-        self.assertEqual(Exp('1+2-3*4^5%6').eval(), 1+2-3*4**5%6)
+        self.assertEqual(Exp('1+2-3*4^5#6').eval(), 1+2-3*4**5%6)
 
     def test_floats(self):
         self.assertEqual(Exp('1.0+2.0').eval(), 1.0+2.0)

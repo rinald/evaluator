@@ -6,7 +6,6 @@ from .operation import Operation
 from .util import OPERATORS, CONSTANTS, MAX_BP
 
 # TODO - Check for mismatched brackets
-# TODO - Implement postfix operations
 
 class Parser:
     def __init__(self, expression):
@@ -19,9 +18,12 @@ class Parser:
 
         if token == None:
             return -1
-        if token.type == 'operator': # operators except -, %, ! are always infix
+        if token.type == 'operator':
             operator = token.value
-            return self.depth * MAX_BP + OPERATORS['infix'][operator]['bp']
+            if operator in OPERATORS['postfix']:
+                return self.depth * MAX_BP + OPERATORS['postfix'][operator]['bp']
+            else:
+                return self.depth * MAX_BP + OPERATORS['infix'][operator]['bp']
         elif token.type == 'function':
             function = token.value
             return self.depth * MAX_BP + OPERATORS['prefix'][function]['bp']
@@ -56,7 +58,7 @@ class Parser:
                 bp_ = self.depth * MAX_BP + OPERATORS['prefix'][operator]['bp']
                 return Operation(operator, right=parse(rbp=bp_))
             else:
-                raise ParseError('Operator {} is not a prefix operator.')
+                raise ParseError('Operator {} is not a prefix operator.'.format(operator))
         elif token.type == 'function':
             function = token.value
             return Operation(function, right=parse(rbp=bp(token)))
@@ -83,10 +85,13 @@ class Parser:
 
         if token.type == 'operator':
             operator = token.value
-            if operator == '^':
-                return Operation(operator, left=left, right=parse(rbp=bp(token)-1))
+            if operator in OPERATORS['postfix']:
+                return Operation(operator, left=left)
             else:
-                return Operation(operator, left=left, right=parse(rbp=bp(token)))
+                if operator == '^':
+                    return Operation(operator, left=left, right=parse(rbp=bp(token)-1))
+                else:
+                    return Operation(operator, left=left, right=parse(rbp=bp(token)))
         else:
             return None
 
@@ -101,6 +106,6 @@ class Parser:
         left = nud(lexer.next())
 
         while bp(lexer.peek()) > rbp:
-            left = led(left, lexer.next()) 
+            left = led(left, lexer.next())
 
         return left

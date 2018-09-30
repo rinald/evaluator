@@ -3,7 +3,7 @@ from evaluator.lexer import Lexer
 
 class LexerTest(unittest.TestCase):
     def test_lexer(self):
-        lexer = Lexer('1234567890 0.123456789 +-*/^%! ([{<>}]) sin cos abs x y r theta e pi phi i')
+        lexer = Lexer('1234567890 0.123456789 +-*/#^%! ([{<>}]) sin cos abs x y r theta e pi phi i')
         
         expected_type = {
             '1234567890': 'integer',
@@ -13,6 +13,7 @@ class LexerTest(unittest.TestCase):
             '*': 'operator',
             '/': 'operator',
             '^': 'operator',
+            '#': 'operator',
             '%': 'operator',
             '!': 'operator',
             '(': 'left_round',

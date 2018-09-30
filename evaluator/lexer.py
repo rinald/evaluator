@@ -41,7 +41,7 @@ class Lexer:
 
         token = self.read()
         self.cursor_at = self.read_from
-        if self.current != Lexer.EOI:
+        if self.cursor_at < len(self.expression):
             self.current = self.expression[self.cursor_at] # reset cursor after read()
         return token
 
