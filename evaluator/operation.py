@@ -8,14 +8,18 @@ def simplify(node, vars_):
     if isinstance(node, Operation):
         value = node.eval(vars_)
     elif isinstance(node, str):
-        variable = node
-        
-        if vars_ == None:
-            raise EvaluateError('Expressions can\'t have variables.')
-        elif variable not in vars_:
-            raise EvaluateError('Variable {} not initialised.'.format(variable))
+        if node in CONSTANTS:
+            constant = node
+            value = CONSTANTS[constant]
         else:
-            value = vars_[variable]
+            variable = node
+            
+            if vars_ == None:
+                raise EvaluateError('Expressions can\'t have variables.')
+            elif variable not in vars_:
+                raise EvaluateError('Variable {} not initialised.'.format(variable))
+            else:
+                value = vars_[variable]
     else:
         value = node
         

@@ -48,7 +48,7 @@ class Parser:
             return float(decimal)
         elif token.type == 'constant':
             constant = token.value
-            return CONSTANTS[constant]
+            return constant
         elif token.type == 'variable':
             variable = token.value
             return variable
