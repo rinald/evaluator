@@ -62,11 +62,11 @@ class Lexer:
 
         # First we get generic types
         if is_digit(self.current):
-            while is_digit(self.current):
+            while is_digit(self.current) or self.current == '.':
                 self.move()
             generic_type = 'number'
         elif is_letter(self.current):
-            while is_letter(self.current):
+            while is_letter(self.current) or is_digit(self.current):
                 self.move()
             generic_type = 'identifier'
         elif is_operator(self.current):
