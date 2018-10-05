@@ -1,7 +1,7 @@
 '''Defines the Function object.'''
 
 from .parser import Parser
-from .operation import Operation, simplify
+from .operation import simplify
 
 class Function:
     '''Defines a function.'''

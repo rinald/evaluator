@@ -1,7 +1,7 @@
 '''Defines the Expression object.'''
 
 from .parser import Parser
-from .operation import Operation, simplify
+from .operation import simplify
 
 class Expression:
     '''Defines an expression.'''
