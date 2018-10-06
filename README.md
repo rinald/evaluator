@@ -30,7 +30,7 @@ f = Fun('x^2+2*x+1')
 print(f(x=-1)) # Prints 0
 
 f = Fun('cos(theta)') # 'theta' is the variable in this case
-print(f(theta=0)) # Prints 0
+print(f(theta=0)) # Prints 1
 
 ## Multivariable function
 f = Fun('x+y')
