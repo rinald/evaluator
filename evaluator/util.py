@@ -6,7 +6,7 @@ MAX_BP = 5
 
 is_digit      = lambda ch: ch != '' and ch in '0123456789'
 is_letter     = lambda ch: ch != '' and ch in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-is_operator   = lambda ch: ch != '' and ch in '+-*/#^%!'
+is_operator   = lambda ch: ch != '' and ch in '+-*/#^%!`'
 is_bracket    = lambda ch: ch != '' and ch in '()[]{}<>'
 is_whitespace = lambda ch: ch != '' and ch in ' \n\t'
 
@@ -105,6 +105,10 @@ OPERATORS = {
         '%': {
             'bp': 5,
             'function': lambda x: x/100
+        },
+        '`': {
+            'bp': 5,
+            'function': lambda x: (x*math.pi)/180
         }
     }
 }
