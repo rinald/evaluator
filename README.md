@@ -10,10 +10,10 @@ The **Expression** object represent a mathematical expression. It supports expre
 from evaluator import Exp
 
 e = Exp('(1+2)*3-4')
-print(e.eval()) # Prints 5
+print(e.eval()) # prints 5
 
 e = Exp('sin(1-ln(e))')
-print(e.eval()) # Prints 0
+print(e.eval()) # prints 0
 ```
 
 ---
@@ -27,15 +27,15 @@ from evaluator import Fun
 
 ## Single variable function
 f = Fun('x^2+2*x+1')
-print(f(x=-1)) # Prints 0
+print(f(x=-1)) # prints 0
 
 f = Fun('cos(theta)') # 'theta' is the variable in this case
-print(f(theta=0)) # Prints 1
+print(f(theta=0)) # prints 1
 
 ## Multivariable function
 f = Fun('x+y')
-print(f(x=1, y=2)) # Prints 3
-print(f(x=1, z=2)) # Error
+print(f(x=1, y=2)) # prints 3
+print(f(x=1, z=2)) # error
 
 ```
 
