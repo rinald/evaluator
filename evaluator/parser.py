@@ -5,16 +5,15 @@ from .errors import ParseError
 from .operation import Operation
 from .util import OPERATORS, CONSTANTS, MAX_BP
 
-# TODO - Check for mismatched brackets
-
 class Parser:
     def __init__(self, expression):
         self.expression = expression
         self.lexer = Lexer(expression)
         self.depth = 0
+        self.vars = []
 
     def bp(self, token):
-        '''Return binding power of token.'''
+        '''Return the binding power of a token.'''
 
         if token == None:
             return -1
@@ -27,7 +26,7 @@ class Parser:
         elif token.type == 'function':
             function = token.value
             return self.depth * MAX_BP + OPERATORS['prefix'][function]['bp']
-        elif token.value == ')' or token.value == ']' or token.value == '}' or token.value == '>':
+        elif token.value in [')', ']', '}', '>']:
             self.lexer.next()
             self.depth -= 1
             return -1
@@ -35,30 +34,29 @@ class Parser:
             return -1
 
     def nud(self, token):
-        '''Parse token with no left context.'''
+        '''Parse a token with no left context.'''
 
         parse = self.parse
         bp = self.bp
 
         if token.type == 'integer':
-            integer = token.value
-            return int(integer)
-        elif token.type == 'decimal':
-            decimal = token.value
-            return float(decimal)
+            return int(token.value)
+        elif token.type == 'float':
+            return float(token.value)
         elif token.type == 'constant':
-            constant = token.value
-            return constant
+            return token.value
         elif token.type == 'variable':
             variable = token.value
+            if variable not in self.vars:
+                self.vars.append(variable)
             return variable
         elif token.type == 'operator':
             operator = token.value
             if operator in OPERATORS['prefix']:
-                bp_ = self.depth * MAX_BP + OPERATORS['prefix'][operator]['bp']
-                return Operation(operator, right=parse(rbp=bp_))
+                _bp = self.depth * MAX_BP + OPERATORS['prefix'][operator]['bp']
+                return Operation(operator, right=parse(rbp=_bp))
             else:
-                raise ParseError('Operator {} is not a prefix operator.'.format(operator))
+                raise ParseError(f'"{operator}" is not a prefix operator.')
         elif token.type == 'function':
             function = token.value
             return Operation(function, right=parse(rbp=bp(token)))
@@ -75,10 +73,10 @@ class Parser:
             self.depth += 1
             return Operation('abs', right=parse(rbp=self.depth*MAX_BP))
         else:
-            return None
+            raise ParseError(f'Cannot parse {token}')
 
     def led(self, left, token):
-        '''Parse token with left context.'''
+        '''Parse a token with a left context.'''
 
         parse = self.parse
         bp = self.bp
@@ -96,13 +94,15 @@ class Parser:
             return None
 
     def parse(self, rbp=0):
-        '''Parse with TDOP algorithm (Pratt Parsing).'''
+        '''Parse an expression with the "Top Down Operator Parsing" algorithm.'''
 
+        # Aliases
         lexer = self.lexer
         nud = self.nud
         led = self.led
         bp = self.bp
 
+        # The actual algorithm
         left = nud(lexer.next())
 
         while bp(lexer.peek()) > rbp:

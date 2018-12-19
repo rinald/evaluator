@@ -2,8 +2,7 @@
 
 from .token import Token
 from .errors import ReadError
-from .util import is_digit, is_operator, is_whitespace, is_letter, is_bracket
-from .util import CONSTANTS, OPERATORS
+from .util import *
 
 class Lexer:
     '''Lexer for mathematical expressions.'''
@@ -76,41 +75,41 @@ class Lexer:
             self.move()
             generic_type = 'bracket'
         else:
-            raise ReadError('Invalid character \'{}\''.format(self.current))
+            raise ReadError(f'Invalid character "{self.current}"')
 
         value = self.expression[self.read_from:self.cursor_at]
 
         # Then we return specific types based on the value
         if generic_type == 'number':
             if '.' in value:
-                type_ = 'decimal'
+                _type = 'float'
             else:
-                type_ = 'integer'
+                _type = 'integer'
         elif generic_type == 'identifier':
             if value in OPERATORS['prefix']: # functions are just prefix operators
-                type_ = 'function'
+                _type = 'function'
             elif value in CONSTANTS:
-                type_ = 'constant'
+                _type = 'constant'
             else:
-                type_ = 'variable' # all that's left is considered a variable
+                _type = 'variable' # all that's left is considered a variable
         elif generic_type == 'bracket':
             if value == '(':
-                type_ = 'left_round'
+                _type = 'left_round'
             elif value == ')':
-                type_ = 'right_round'
+                _type = 'right_round'
             elif value == '[':
-                type_ = 'left_square'
+                _type = 'left_square'
             elif value == ']':
-                type_ = 'right_square'
+                _type = 'right_square'
             elif value == '{':
-                type_ = 'left_curly'
+                _type = 'left_curly'
             elif value == '}':
-                type_ = 'right_curly'
+                _type = 'right_curly'
             elif value == '<':
-                type_ = 'left_angular'
+                _type = 'left_angular'
             elif value == '>':
-                type_ = 'right_angular'
+                _type = 'right_angular'
         else:
-            type_ = 'operator' # operators are just operators
+            _type = 'operator' # operators are just operators :)
 
-        return Token(type_, value)
+        return Token(_type, value)

@@ -4,9 +4,9 @@ from .token import Token
 from .errors import EvaluateError
 from .util import OPERATORS, CONSTANTS
 
-def simplify(node, vars_):
+def _eval(node, _vars):
     if isinstance(node, Operation):
-        value = node.eval(vars_)
+        value = node.eval(_vars)
     elif isinstance(node, str):
         if node in CONSTANTS:
             constant = node
@@ -14,12 +14,12 @@ def simplify(node, vars_):
         else:
             variable = node
             
-            if vars_ == None:
+            if _vars == None:
                 raise EvaluateError('Expressions can\'t have variables.')
-            elif variable not in vars_:
+            elif variable not in _vars:
                 raise EvaluateError('Variable {} not initialised.'.format(variable))
             else:
-                value = vars_[variable]
+                value = _vars[variable]
     else:
         value = node
         
@@ -52,26 +52,26 @@ class Operation:
     def __repr__(self):
         return self.__str__()
 
-    def eval(self, vars_=None):
+    def eval(self, _vars=None):
         '''Evaluate the operation.'''
 
         function = OPERATORS[self.type][self.operator]['function']
 
         if self.type == 'infix':
-            left = simplify(self.left, vars_)
-            right = simplify(self.right, vars_)
+            left = _eval(self.left, _vars)
+            right = _eval(self.right, _vars)
 
             return function(left, right)
 
         elif self.type == 'prefix':
-            right = simplify(self.right, vars_)
+            right = _eval(self.right, _vars)
 
             return function(right)
 
         elif self.type == 'postfix':
-            left = simplify(self.left, vars_)
+            left = _eval(self.left, _vars)
 
             return function(left)
 
         else:
-            raise EvaluateError('Cannot evaluate operation of type \'undefined\'.')
+            raise EvaluateError(f'Cannot evaluate operation of type {self.type}.')

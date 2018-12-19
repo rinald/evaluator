@@ -6,8 +6,8 @@ class Token:
     Provides type and value to the lexer.
     '''
 
-    def __init__(self, type_, value):
-        self.type = type_
+    def __init__(self, _type, value):
+        self.type = _type
         self.value = value
     
     def __str__(self):

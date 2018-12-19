@@ -1,7 +1,7 @@
 '''Defines the Expression object.'''
 
 from .parser import Parser
-from .operation import simplify
+from .operation import _eval
 
 class Expression:
     '''Defines an expression.'''
@@ -19,4 +19,4 @@ class Expression:
     def eval(self):
         '''Evaluate the expression.'''
 
-        return simplify(self.ast, vars_=None)
+        return _eval(self.ast, _vars=None)

@@ -7,7 +7,7 @@ class LexerTest(unittest.TestCase):
         
         expected_type = {
             '1234567890': 'integer',
-            '0.123456789': 'decimal',
+            '0.123456789': 'float',
             '+': 'operator',
             '-': 'operator',
             '*': 'operator',
