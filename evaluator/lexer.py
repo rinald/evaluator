@@ -75,7 +75,7 @@ class Lexer:
             self.move()
             generic_type = 'bracket'
         else:
-            raise ReadError(f'Invalid character "{self.current}"')
+            raise ReadError('Invalid character \'{}\''.format(self.current))
 
         value = self.expression[self.read_from:self.cursor_at]
 

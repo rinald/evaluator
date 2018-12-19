@@ -74,4 +74,4 @@ class Operation:
             return function(left)
 
         else:
-            raise EvaluateError(f'Cannot evaluate operation of type {self.type}.')
+            raise EvaluateError('Cannot evaluate operation of type {}.'.format(self.type))

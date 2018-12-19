@@ -56,7 +56,7 @@ class Parser:
                 _bp = self.depth * MAX_BP + OPERATORS['prefix'][operator]['bp']
                 return Operation(operator, right=parse(rbp=_bp))
             else:
-                raise ParseError(f'"{operator}" is not a prefix operator.')
+                raise ParseError('\'{}\' is not a prefix operator.'.format(operator))
         elif token.type == 'function':
             function = token.value
             return Operation(function, right=parse(rbp=bp(token)))
@@ -73,7 +73,7 @@ class Parser:
             self.depth += 1
             return Operation('abs', right=parse(rbp=self.depth*MAX_BP))
         else:
-            raise ParseError(f'Cannot parse {token}')
+            raise ParseError('Cannot parse {}'.format(token))
 
     def led(self, left, token):
         '''Parse a token with a left context.'''
